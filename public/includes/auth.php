@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/loadPepper.php';
+require_once __DIR__ . '/loadEnv.php';
 // secure = true in production (HTTPS)
 session_set_cookie_params([
     'httponly' => true,

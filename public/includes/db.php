@@ -1,8 +1,9 @@
 <?php
-$host = 'mysql';
-$dbname = 'justShootMe';
-$user = 'root';
-$password = '1234';
+require_once __DIR__ . '/loadEnv.php';
+$host = $_ENV['DB_HOST'];
+$dbname = $_ENV['DB_NAME'];
+$user = $_ENV['DB_USER'];
+$password = $_ENV['DB_PASSWORD'];
 
 try{
     $pdo = new PDO(

@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/loadPepper.php';
+require_once __DIR__ . '/loadEnv.php';
 
 function addUser($name, $password, $permissions) {
     $peppered_password = hash_hmac('sha256', $password, $_ENV['APP_PEPPER']); //hash pw with pepper

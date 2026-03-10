@@ -1,6 +1,6 @@
 <?php
 
-require_once 'auth.php';
+require_once __DIR__ . '/auth.php';
 
 
 
@@ -20,11 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($username === '' || $password === '') {
             $error = 'Please provide username and password';
         } else {
-            if (login_user($username, $password)) {
+            $result = login_user($username, $password);
+            if($result['success'] === true) {
                 header('Location: subpages/home.php');
                 exit;
             } else {
-                $error = 'Invalid credentials or too many attempts. Please try again later.';
+                $error = $result['message'] ?? 'Login failed';
             }
         }
     }

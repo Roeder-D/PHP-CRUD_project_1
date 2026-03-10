@@ -1,6 +1,6 @@
 <?php
-require_once 'db.php';
-require_once 'loadPepper.php';
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/loadPepper.php';
 // secure = true in production (HTTPS)
 session_set_cookie_params([
     'httponly' => true,
@@ -13,7 +13,7 @@ if(session_status() === PHP_SESSION_NONE) {
 
 // Login (Brute-Force protection, Session fixation prevention, CSRF protection)
 // possible improvements: 2FA, CAPTCHA, Security Alerts, etc.
-function login_user(string $username, string $password): bool
+function login_user(string $username, string $password): array
 {
     global $pdo;
     $pdo->query("DELETE FROM login_attempts WHERE last_attempt < NOW() - INTERVAL 1 DAY"); //clean old attempts
@@ -30,7 +30,7 @@ function login_user(string $username, string $password): bool
         $diff = (time() - strtotime($throttle['last_attempt'])) / 60;
     
         if($diff < $lockoutTime){
-            return false;
+            return ['success' => false, 'message' => 'Too many failed login attempts. Please try again later.'];
         }else{
         $pdo->prepare('DELETE FROM login_attempts WHERE ip_address = :ip OR username = :user')->execute([':ip' => $ip, ':user' => $username]);
         }
@@ -52,13 +52,13 @@ function login_user(string $username, string $password): bool
         $_SESSION['username'] = $username;
         $_SESSION['permissions_level'] = (int)$user['permissions'];
     
-        return true;
+        return ['success' => true];
     }
 
     // failed login
     $pdo->prepare('INSERT INTO login_attempts (ip_address, username, last_attempt,attempts) VALUES (:ip, :user, NOW(), 1) ON DUPLICATE KEY UPDATE  attempts = attempts +1, last_attempt = NOW()')->execute([':ip' => $ip, ':user' => $username]);
 
-    return false;
+    return ['success' => false, 'message' => 'Invalid username or password.'];
 }
 
 function logout_user(): void

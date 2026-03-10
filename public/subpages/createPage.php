@@ -1,10 +1,10 @@
 <?php 
-require_once '../includes/escape.php';
-require_once '../includes/auth.php';
+require_once __DIR__ . '/../includes/escape.php';
+require_once __DIR__ . '/../includes/auth.php';
 require_login();
 require_permission(2);
-require_once '../includes/db.php';
-require_once '../includes/create.php';
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/create.php';
 // Auslagern der Logik
 $errors = process_add_person();
 ?>

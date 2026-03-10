@@ -1,6 +1,6 @@
 <?php
-require_once 'db.php';
-require_once 'logger.php';
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/logger.php';
 
 function create_person($name, $surname, $email){
     global $pdo;

@@ -1,6 +1,6 @@
 <?php 
-require_once '../includes/escape.php';
-require_once '../includes/auth.php';
+require_once __DIR__ . '/../includes/escape.php';
+require_once __DIR__ . '/../includes/auth.php';
 require_login();
 require_permission(3);
 ?>

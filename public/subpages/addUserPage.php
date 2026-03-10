@@ -1,14 +1,14 @@
 <?php
-require_once '../includes/escape.php';
-require_once '../includes/auth.php';
+require_once __DIR__ . '/../includes/escape.php';
+require_once __DIR__ . '/../includes/auth.php';
 require_login();
 require_permission(3);
-require_once '../includes/db.php';
-require_once '../includes/addUser.php';
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/addUser.php';
 // Auslagern der Logik
 $errors = process_add_user();
 
-require_once '../includes/header.php';
+require_once __DIR__ . '/../includes/header.php';
 ?>
 <!--PRG ZIEL (Beginn HTML)-->
 <body>

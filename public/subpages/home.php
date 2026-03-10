@@ -1,19 +1,19 @@
 <?php
-require_once '../includes/escape.php';
-require_once '../includes/auth.php';
+require_once __DIR__ . '/../includes/escape.php';
+require_once __DIR__ . '/../includes/auth.php';
 require_login();
-require_once '../includes/db.php';
+require_once __DIR__ . '/../includes/db.php';
 
 $errors = [];
-require_once '../includes/create.php';
-require_once '../includes/update.php';
-require_once '../includes/delete.php';
-require_once '../includes/pagination.php';
+require_once __DIR__ . '/../includes/create.php';
+require_once __DIR__ . '/../includes/update.php';
+require_once __DIR__ . '/../includes/delete.php';
+require_once __DIR__ . '/../includes/pagination.php';
 
 
 //PRG-Ziel
 //Start von HTML
-require '../includes/header.php';    
+require __DIR__ . '/../includes/header.php';    
 ?>
 
 <html>

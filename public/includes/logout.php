@@ -1,5 +1,5 @@
 <?php
-require_once 'auth.php';
+require_once __DIR__ . '/auth.php';
 
 // Log out and redirect to login
 logout_user();

@@ -1,6 +1,6 @@
 <?php
 function writeLog($message) {
-    $logDir = '/../private/logs';
+    $logDir = __DIR__ . '/../private/logs';
     $logFile = $logDir . '/app.log';
 
     // Falls der Ordner nicht existiert, erstelle ihn

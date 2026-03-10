@@ -23,9 +23,14 @@ $errors = process_add_person();
     <header>
     <nav class="nav">
         <a href="home.php" class="nav_link">home</a>
-        <a href="#" class="nav_link">create</a>
+        <?php if(current_user_has(2)): ?>
+        <a href="createPage.php" class="nav_link">create</a>
         <a href="updatePage.php" class="nav_link">update</a>
+        <?php endif; ?>
+        <?php if(current_user_has(3)): ?>
         <a href="deletePage.php" class="nav_link">delete</a>
+        <a href="addUserPage.php" class="nav_link">add user</a>
+        <?php endif; ?>
         <a href="../includes/logout.php" class="nav_link">logout</a>
     </nav>
 </header>

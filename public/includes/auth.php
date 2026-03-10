@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require_once 'loadPepper.php';
 // secure = true in production (HTTPS)
 session_set_cookie_params([
     'httponly' => true,
@@ -11,6 +12,7 @@ if(session_status() === PHP_SESSION_NONE) {
 }
 
 // Login (Brute-Force protection, Session fixation prevention, CSRF protection)
+// possible improvements: 2FA, CAPTCHA, Security Alerts, etc.
 function login_user(string $username, string $password): bool
 {
     global $pdo;
@@ -38,7 +40,8 @@ function login_user(string $username, string $password): bool
     $stmt->execute([':user' => $username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     $password_hash = $user ? $user['password_hash'] : '$2y$10$abcdefghijklmnopqrstuv'; //user_hash or if doesn't exist dummy_hash 
-    $validPW = password_verify($password, $password_hash); // prevent timing attacks (hide existence of user)
+    $peppered_password = hash_hmac('sha256', $password, $_ENV['APP_PEPPER']); //hash pw with pepper
+    $validPW = password_verify($peppered_password, $password_hash); // prevent timing attacks (hide existence of user)
 
     //login
     if($user && $validPW){

@@ -1,8 +1,10 @@
 <?php
 require_once 'db.php';
+require_once 'loadPepper.php';
 
 function addUser($name, $password, $permissions) {
-    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    $peppered_password = hash_hmac('sha256', $password, $_ENV['APP_PEPPER']); //hash pw with pepper
+    $passwordHash = password_hash($peppered_password, PASSWORD_DEFAULT);
     global $pdo;
     $stmt = $pdo->prepare("INSERT INTO permittedUsers (username, password_hash, permissions) VALUES (?, ?, ?)");
     return $stmt->execute([$name, $passwordHash, $permissions]);

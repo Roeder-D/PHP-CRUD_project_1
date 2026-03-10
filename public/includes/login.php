@@ -1,5 +1,5 @@
 <?php
-require_once 'db.php';
+
 require_once 'auth.php';
 
 
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($username === '' || $password === '') {
             $error = 'Please provide username and password';
         } else {
-            if (login_user($pdo, $username, $password)) {
+            if (login_user($username, $password)) {
                 header('Location: subpages/home.php');
                 exit;
             } else {

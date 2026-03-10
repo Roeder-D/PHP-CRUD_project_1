@@ -1,19 +1,18 @@
 <?php
-// Simple auth helpers: session setup, login, logout, permission checks
-// Include this from your `login.php` and protected pages.
-
-// Adjust cookie params for production (secure => true when using HTTPS)
+require_once 'db.php';
+// secure = true in production (HTTPS)
 session_set_cookie_params([
     'httponly' => true,
     'secure' => false,
     'samesite' => 'Lax'
 ]);
-if (session_status() === PHP_SESSION_NONE) {
+if(session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-function login_user(PDO $pdo, string $username, string $password): bool
+function login_user(string $username, string $password): bool
 {
+    global $pdo;
     $stmt = $pdo->prepare('SELECT id, password_hash, permissions FROM permittedUsers WHERE username = :user LIMIT 1');
     $stmt->execute([':user' => $username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);

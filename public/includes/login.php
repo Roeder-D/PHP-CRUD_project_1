@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: subpages/home.php');
                 exit;
             } else {
-                $error = 'Invalid credentials';
+                $error = 'Invalid credentials or too many attempts. Please try again later.';
             }
         }
     }

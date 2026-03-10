@@ -10,26 +10,52 @@ if(session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Login (Brute-Force protection, Session fixation prevention, CSRF protection)
 function login_user(string $username, string $password): bool
 {
     global $pdo;
+    $pdo->query("DELETE FROM login_attempts WHERE last_attempt < NOW() - INTERVAL 1 DAY"); //clean old attempts
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $limit = 5; //max attempts
+    $lockoutTime = 1; //in minutes
+    
+    $stmt = $pdo->prepare('SELECT MAX(attempts) as max_attempts, MAX(last_attempt) as last_attempt FROM login_attempts WHERE ip_address = :ip OR username = :user');
+    $stmt->execute([':ip'  => $ip, ':user' => $username]);
+    $throttle = $stmt->fetch();
+
+    if($throttle && $throttle['max_attempts'] >= $limit){
+        $lastUpdate = new DateTime($throttle['last_attempt']);
+        $diff = (time() - strtotime($throttle['last_attempt'])) / 60;
+    
+        if($diff < $lockoutTime){
+            return false;
+        }else{
+        $pdo->prepare('DELETE FROM login_attempts WHERE ip_address = :ip OR username = :user')->execute([':ip' => $ip, ':user' => $username]);
+        }
+    }
+
     $stmt = $pdo->prepare('SELECT id, password_hash, permissions FROM permittedUsers WHERE username = :user LIMIT 1');
     $stmt->execute([':user' => $username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$user) {
-        return false;
+    $password_hash = $user ? $user['password_hash'] : '$2y$10$abcdefghijklmnopqrstuv'; //user_hash or if doesn't exist dummy_hash 
+    $validPW = password_verify($password, $password_hash); // prevent timing attacks (hide existence of user)
+
+    //login
+    if($user && $validPW){
+        $pdo->prepare('DELETE FROM login_attempts WHERE ip_address = :ip OR username = :user')->execute([':ip' => $ip, ':user' => $username]);
+        
+        session_regenerate_id(true);
+        $_SESSION['user_id'] = (int)$user['id'];
+        $_SESSION['username'] = $username;
+        $_SESSION['permissions_level'] = (int)$user['permissions'];
+    
+        return true;
     }
 
-    if (!password_verify($password, $user['password_hash'])) {
-        return false;
-    }
+    // failed login
+    $pdo->prepare('INSERT INTO login_attempts (ip_address, username, last_attempt,attempts) VALUES (:ip, :user, NOW(), 1) ON DUPLICATE KEY UPDATE  attempts = attempts +1, last_attempt = NOW()')->execute([':ip' => $ip, ':user' => $username]);
 
-    session_regenerate_id(true);
-    $_SESSION['user_id'] = (int)$user['id'];
-    $_SESSION['username'] = $username;
-    $_SESSION['permissions_level'] = (int)$user['permissions'];
-
-    return true;
+    return false;
 }
 
 function logout_user(): void

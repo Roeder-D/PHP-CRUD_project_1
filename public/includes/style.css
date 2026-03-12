@@ -5,7 +5,7 @@
     --text-main: #333333;
     --text-muted: #7f8c8d;
     --primary: #3498db;
-    --primary-hover: #2980b9;
+    --primary-hover: #2a72a1;
     --dark: #2c3e50;
     --light: #ecf0f1;
     --danger: #e74c3c;
@@ -49,6 +49,7 @@ main {
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s;
+    text-transform: capitalize;
 }
 
 .nav_link:hover {
@@ -119,32 +120,56 @@ tr:first-child {
     }
 }
 
-/* Pagination */
 .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 15px;
-    margin: 20px 0;
+    margin-top: 20px;
 }
 
+/* Arrows */
 .pagination a {
-    padding: 8px 16px;
+    padding: 8px 8px;
     text-decoration: none;
+    font-weight: bold;
     color: var(--primary);
-    border: 1px solid var(--primary);
-    border-radius: 4px;
     transition: all 0.3s;
+    white-space: nowrap; /* Prevents text wrapping on small screens */
+    &:hover {
+        color: var(--primary-hover);
+    }
 }
 
-.pagination a:hover {
-    background-color: var(--primary);
-    color: white;
+/* Center Form Styling */
+.pageSelect {
+    color: var(--text-muted);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
 }
 
-.pagination span {
+.pageSelect select {
+    padding: 4px 8px;
+    border: 1px solid var(--bg-main);
+    border-radius: 4px;
+    background-color: var(--bg-main);
+    font-size: 16px;
+    font-family: inherit;
     font-weight: bold;
     color: var(--text-muted);
+    cursor: pointer;
+    &:hover {
+        color: var(--dark);
+    }
+}
+
+.total-text {
+    font-weight: bold;
+    color: var(--text-muted);
+    font-size: 14px;
 }
 
 /* Delete Button specific */

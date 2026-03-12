@@ -43,18 +43,27 @@ require __DIR__ . '/../includes/header.php';
     <?php endif; ?>
 </form>
 
-<!-- Pagination arrows -->
+<!-- Pagination navigation -->
 <div class="pagination">
-    <?php 
-    // Helper to keep the search term in the links
-    $searchQuery = $search ? "&search=" . urlencode($search) : ""; 
-    ?>
+    <?php $searchQuery = $search ? "&search=" . urlencode($search) : ""; ?>
 
     <?php if ($page > 1): ?>
         <a href="?page=<?php echo $page - 1 . $searchQuery; ?>">&laquo; Previous</a>
     <?php endif; ?>
 
-    <span>Page <?php echo $page; ?> of <?php echo $totalPages; ?></span>
+    <form method="GET" action="" class="pageSelect">
+        <?php if($search): ?>
+            <input type="hidden" name="search" value="<?php echo e($search); ?>">
+        <?php endif; ?>
+        
+        <label for="pageSelect">Page</label>
+        <select id="pageSelect" name="page" onchange="this.form.submit()">
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <option value="<?php echo $i; ?>" <?php if ($i == $page) echo 'selected'; ?>><?php echo $i; ?></option>
+            <?php endfor; ?>
+        </select>
+        <span class="total-text">of <?php echo $totalPages; ?></span>
+    </form>
 
     <?php if ($page < $totalPages): ?>
         <a href="?page=<?php echo $page + 1 . $searchQuery; ?>">Next &raquo;</a>

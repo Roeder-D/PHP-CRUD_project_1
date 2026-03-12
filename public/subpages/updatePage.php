@@ -83,7 +83,6 @@ if (!empty($errors)) {
         echo '<p>' . e($error) . '</p>';
     }
     echo '</div>';
-    // $errors = [];
 }
 
 echo '</div>';

@@ -108,6 +108,17 @@ tr:first-child {
     font-weight: bold;
 }
 
+.table_link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    &:hover {
+        color: var(--dark);
+        font-weight: bold;
+    }
+}
+
 /* Pagination */
 .pagination {
     display: flex;

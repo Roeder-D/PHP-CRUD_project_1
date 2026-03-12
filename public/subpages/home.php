@@ -71,8 +71,8 @@ echo '<tr> <td> ID </td> <td> Name </td> <td> Surname </td><td> Email </td>';
 echo '</tr>';
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
     echo '<tr> <td> ' . e($row['id']) . '</td><td> ' . e($row['name']) .' </td><td> ' . e($row['surname']) . '</td><td> ' . e($row['email']??'') . ' </td>';
-    if(current_user_has(2)){ echo '<td> <a href="updatePage.php?id=' . e($row['id']) . '">Edit</a> </td>';}
-    if(current_user_has(3)){ echo '<td> <a href="confirmDelete.php?id=' . e($row['id']) . '">Delete</a> </td>';}
+    if(current_user_has(2)){ echo '<td> <a class="table_link" href="updatePage.php?id=' . e($row['id']) . '">Edit</a> </td>';}
+    if(current_user_has(3)){ echo '<td> <a class="table_link" href="confirmDelete.php?id=' . e($row['id']) . '">Delete</a> </td>';}
     echo '</tr>';
     }
     echo '</table></div>';

@@ -41,7 +41,12 @@ require_once __DIR__ . '/../includes/header.php';
         <label for="password">password</label>
         <input type="password" name="password" id="password" required>
         <label for="permissions">permissions</label>
-        <input type="text" name="permissions" id="permissions" required>
+        <select name="permissions" id="permissions" required>
+            <option value="">Select permissions</option>
+            <option value="1">1 - Regular User</option>
+            <option value="2">2 - Editor</option>
+            <option value="3">3 - Admin</option>
+        </select>
         <button type="submit">Add</button>
     </form>
     </div>

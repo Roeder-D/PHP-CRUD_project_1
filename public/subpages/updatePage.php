@@ -28,6 +28,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])){
         $_POST['upName'] = $person['name'];
         $_POST['upSurname'] = $person['surname'];
         $_POST['upEmail'] = $person['email'];
+        $_POST['upBirthdate'] = $person['birthdate'];
     } else {
         echo '<div style="color: red;">User not found.</div>';
     }
@@ -64,12 +65,15 @@ if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])){
     <form action="#" method="POST">
         <label for="upId">ID</label>
         <input type="text" name="upId" id="name" value="<?php if(isset($person['id'])){ echo e($person['id']); } ?>" <?php if(isset($person['id'])){ echo 'disabled';} else echo 'required' ;?>>
+        <?php if(isset($person['id'])){ echo '<input type="hidden" name="upId" value="' . e($person['id']) . '">'; } ?>
         <label for="upName">name</label>
         <input type="text" name="upName" id="name" value="<?php if(isset($person['name'])){ echo e($person['name']); } ?>" required>
         <label for="upSurname">surname</label>
         <input type="text" name="upSurname" id="surname" value="<?php if(isset($person['surname'])){ echo e($person['surname']); } ?>" required>        
         <label for="upEmail">email</label>
         <input type="text" name="upEmail" id="email" value="<?php if(isset($person['email'])){ echo e($person['email']); } ?>" required>
+        <label for="upBirthdate">birthdate</label>
+        <input type="date" name="upBirthdate" id="birthdate" value="<?php if(isset($person['birthdate'])){ echo e($person['birthdate']); } ?>" required>
         <button type="submit">Update</button>
     </form>
 </div>

@@ -3,10 +3,15 @@ require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/logger.php';
 
 // create tuple in person table
-function create_person($name, $surname, $email){
+function create_person($name, $surname, $email, $birthdate){
     global $pdo;
-    $stmt = $pdo->prepare("INSERT INTO person (name, surname, email) VALUES (?, ?, ?)");
-    return $stmt->execute([$name, $surname, $email]);
+    $stmt = $pdo->prepare("INSERT INTO person (name, surname, email, birthdate) VALUES (:name, :surname, :email, :birthdate)");
+    return $stmt->execute([
+        ':name' => $name,
+        ':surname' => $surname,
+        ':email' => $email,
+        ':birthdate' => $birthdate
+    ]);
 }
 
 // validate input and create person
@@ -17,6 +22,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $name = trim($_POST['crName'] ?? '');
     $surname = trim($_POST['crSurname'] ?? '');
     $email = trim($_POST['crEmail'] ?? '');
+    $birthdate = trim($_POST['crBirthdate'] ?? '');
 
     if (strlen($name) < 2 || strlen($name) > 50) {
         $errors[] = "Der Name muss 2-50 Zeichen lang sein.";
@@ -27,11 +33,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Bitte eine gültige E-Mail-Adresse angeben.";
     }
+    if (!empty($birthdate) && !DateTime::createFromFormat('Y-m-d', $birthdate)) {
+        $errors[] = "Bitte ein gültiges Geburtsdatum im Format JJJJ-MM-TT angeben.";
+    }
 
     // SQL
     if (empty($errors)) {
         try{
-            create_person($name, $surname, $email);
+            create_person($name, $surname, $email, $birthdate);
             // redirect with success message
             header("Location: createPage.php?success=1");
             exit();

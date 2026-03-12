@@ -50,6 +50,8 @@ $errors = process_add_person();
         <input type="text" name="crSurname" id="surname" required>        
         <label for="crEmail">email</label>
         <input type="text" name="crEmail" id="email" required>
+        <label for="crBirthdate">birthdate</label>
+        <input type="date" name="crBirthdate" id="birthdate" required>
         <button type="submit">Create</button>
     </form>
 </div>

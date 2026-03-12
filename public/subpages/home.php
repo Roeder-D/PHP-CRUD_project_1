@@ -64,12 +64,14 @@ require __DIR__ . '/../includes/header.php';
 <!-- Pagination Output -->
 <?php
 echo '<div><table>';
-echo '<tr> <td> ID </td> <td> Name </td> <td> Surname </td><td> Email </td>';
+echo '<tr> <td> ID </td> <td> Name </td> <td> Surname </td><td> Email </td><td> Birthdate </td>';
     if(current_user_has(2)){ echo '<td> Edit </td>';}
     if(current_user_has(3)){ echo '<td> Delete </td>';}
 echo '</tr>';
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-    echo '<tr> <td> ' . e($row['id']) . '</td><td> ' . e($row['name']) .' </td><td> ' . e($row['surname']) . '</td><td> ' . e($row['email']??'') . ' </td>';
+    echo '<tr> <td> ' . e($row['id']) . '</td><td> ' . e($row['name']) .' </td><td> ' . e($row['surname']) . '</td><td> ' . e($row['email']??'') . ' </td><td> ';
+    $date = date_create(e($row['birthdate']??''));
+    echo date_format($date, 'd.m.Y') . ' </td>';
     if(current_user_has(2)){ echo '<td> <a class="table_link" href="updatePage.php?id=' . e($row['id']) . '&origin=' . e('home') . '">Edit</a> </td>';}
     if(current_user_has(3)){ echo '<td> <a class="table_link" href="confirmDelete.php?id=' . e($row['id']) . '&origin=' . e('home') . '">Delete</a> </td>';}
     echo '</tr>';

@@ -3,6 +3,7 @@ require_once __DIR__ . '/escape.php';
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/logger.php';
 
+// delete tuple from person table
 function delete_person($id){
     global $pdo;
     $stmt = $pdo->prepare("DELETE FROM person WHERE id = ?");
@@ -10,6 +11,7 @@ function delete_person($id){
     return $stmt->rowCount() > 0;
 }
 
+// validate input and delete person
 function process_delete_person(): array{
     $errors = [];
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmDelete']) && isset($_POST['delId'])){
@@ -25,7 +27,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmDelete']) && is
                     echo $_POST['origin'] === 'home' ? header("Location: home.php?success=1") : header("Location: deletePage.php?success=1");
                     exit();
                 } else {
-                    // Wenn id nicht existiert
+                    // not found or already deleted
                     $errors[] = "No user found with ID: " . e($id);
                 }
         }catch(PDOException $e){

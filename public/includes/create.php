@@ -2,16 +2,18 @@
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/logger.php';
 
+// create tuple in person table
 function create_person($name, $surname, $email){
     global $pdo;
     $stmt = $pdo->prepare("INSERT INTO person (name, surname, email) VALUES (?, ?, ?)");
     return $stmt->execute([$name, $surname, $email]);
 }
 
+// validate input and create person
 function process_add_person(): array{
     $errors = [];
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
-// Validierung
+    // validate input
     $name = trim($_POST['crName'] ?? '');
     $surname = trim($_POST['crSurname'] ?? '');
     $email = trim($_POST['crEmail'] ?? '');
@@ -26,11 +28,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $errors[] = "Bitte eine gültige E-Mail-Adresse angeben.";
     }
 
-// SQL
+    // SQL
     if (empty($errors)) {
         try{
             create_person($name, $surname, $email);
-            // ERFOLG -> UMLEITUNG
+            // redirect with success message
             header("Location: createPage.php?success=1");
             exit();
         }catch(PDOException $e){

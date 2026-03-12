@@ -5,12 +5,12 @@ require_login();
 require_permission(3);
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/addUser.php';
-// Auslagern der Logik
+// handle form submission and get errors if any
 $errors = process_add_user();
 
 require_once __DIR__ . '/../includes/header.php';
 ?>
-<!--PRG ZIEL (Beginn HTML)-->
+<!--PRG target (start HTML)-->
 <body>
     <header>
     <nav class="nav">
@@ -48,7 +48,7 @@ require_once __DIR__ . '/../includes/header.php';
 
     <?php
     echo '<div>';
-    // Ausgabe der Fehler
+    // error display
     if (!empty($errors)) {
         echo '<div style="color: red; border: 1px solid red; padding: 10px;">';
         foreach ($errors as $error) {

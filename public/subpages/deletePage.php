@@ -4,7 +4,7 @@ require_once __DIR__ . '/../includes/auth.php';
 require_login();
 require_permission(3);
 ?>
-<!--PRG ZIEL (Beginn HTML)-->
+<!--PRG target (start HTML)-->
 <!DOCTYPE html>
 <html lang="en">
 <head>

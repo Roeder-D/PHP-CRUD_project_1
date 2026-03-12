@@ -11,8 +11,7 @@ require_once __DIR__ . '/../includes/delete.php';
 require_once __DIR__ . '/../includes/pagination.php';
 
 
-//PRG-Ziel
-//Start von HTML
+//PRRG target (start HTML)
 require __DIR__ . '/../includes/header.php';    
 ?>
 
@@ -34,7 +33,7 @@ require __DIR__ . '/../includes/header.php';
 </header>
 <main>
 
-<!-- Suchfunktion -->
+<!-- Searchfunction -->
 <form method="GET" action="" style="margin-bottom: 20px;">
     <input type="text" name="search" placeholder="Search name or email..." 
            value="<?php echo e($search); ?>">
@@ -44,7 +43,7 @@ require __DIR__ . '/../includes/header.php';
     <?php endif; ?>
 </form>
 
-<!-- Pagination Pfeile -->
+<!-- Pagination arrows -->
 <div class="pagination">
     <?php 
     // Helper to keep the search term in the links
@@ -62,7 +61,7 @@ require __DIR__ . '/../includes/header.php';
     <?php endif; ?>
 </div>
 
-<!-- Pagination Ausgabe -->
+<!-- Pagination Output -->
 <?php
 echo '<div><table>';
 echo '<tr> <td> ID </td> <td> Name </td> <td> Surname </td><td> Email </td>';
@@ -78,7 +77,7 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
     echo '</table></div>';
 ?>
 
-<!-- Pagination Pfeile-->
+<!-- Pagination arrows -->
 <div class="pagination">
     <?php 
     // Helper to keep the search term in the links

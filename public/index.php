@@ -4,7 +4,7 @@ require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/login.php';
 ?>
 
-
+<!-- Landing page, redirects to home if logged in, otherwise shows login form -->
 <!doctype html>
 <html lang="en">
 <head>

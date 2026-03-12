@@ -11,7 +11,7 @@ function update_person($id, $name, $surname, $email){
 function process_update_person(): array{
     $errors = [];
   if($_SERVER['REQUEST_METHOD'] === 'POST'){
-// Validierung
+// validate input
     $id = trim($_POST['upId']);
     $name = trim($_POST['upName']?? '');    
     $surname = trim($_POST['upSurname']?? '');
@@ -29,12 +29,12 @@ function process_update_person(): array{
     if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Bitte eine gültige E-Mail-Adresse angeben.";
     }
-// SQL
+    // SQL
     if (empty($errors)) {
 
     try{
         update_person($id, $name, $surname, $email);
-        // ERFOLG -> UMLEITUNG
+        // redirect with success message
         header("Location: updatePage.php?success=1");
         exit();
     }catch(PDOException $e){

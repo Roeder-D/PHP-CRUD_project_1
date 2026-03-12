@@ -19,7 +19,9 @@ CREATE TABLE person(
 	surname			VARCHAR(50),
 	email			VARCHAR(255) 	UNIQUE,
 	dateCreated		DATETIME		DEFAULT CURRENT_TIMESTAMP(),
-	updateDate		DATETIME		DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
+	updateDate		DATETIME		DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
+	-- Optimization for: ORDER BY surname ASC
+    INDEX idx_surname (surname)
 );
 
 INSERT INTO permittedUsers (username, password_hash, permissions)

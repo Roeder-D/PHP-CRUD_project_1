@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($username === '' || $password === '') {
             $error = 'Please provide username and password';
         } else {
-            $result = login_user($username, $password);
+            $result = login_user($username, $password); // starts session on success, returns error message on failure
             if($result['success'] === true) {
                 header('Location: subpages/home.php');
                 exit;
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
                 
-// bereits eingeloggt -> direkt weiterleiten
+// redirect if already logged in
 if (current_user_id()) {
 header('Location: subpages/home.php');
 exit;

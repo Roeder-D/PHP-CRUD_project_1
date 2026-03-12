@@ -5,10 +5,10 @@ require_login();
 require_permission(2);
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/create.php';
-// Auslagern der Logik
+// handle form submission and get errors if any
 $errors = process_add_person();
 ?>
-<!--PRG ZIEL (Beginn HTML)-->
+<!--PRG target (start HTML)-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,14 +56,13 @@ $errors = process_add_person();
 
 <?php
 echo '<div>';
-// Ausgabe der Fehler
+// error display
 if (!empty($errors)) {
     echo '<div style="color: red; border: 1px solid red; padding: 10px;">';
     foreach ($errors as $error) {
         echo '<p>' . e($error) . '</p>';
     }
     echo '</div>';
-    // $errors = [];
 }
 
 echo '</div>';

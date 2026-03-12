@@ -2,6 +2,7 @@
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/loadEnv.php';
 
+/// add user (Admin only)
 function addUser($name, $password, $permissions) {
     $peppered_password = hash_hmac('sha256', $password, $_ENV['APP_PEPPER']); //hash pw with pepper
     $passwordHash = password_hash($peppered_password, PASSWORD_DEFAULT);
@@ -11,8 +12,8 @@ function addUser($name, $password, $permissions) {
 }
 
 
+// validate input and add user
 function process_add_user(): array{
-    //Validierung
     $errors = [];
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
@@ -33,8 +34,8 @@ function process_add_user(): array{
     if (!empty($errors)) {
         return ['errors' => $errors];
     }
-    // SQL
     
+        // SQL
     try {
         if (addUser($username, $password, (int)$permissions)) {
             header('Location: ?success=1');

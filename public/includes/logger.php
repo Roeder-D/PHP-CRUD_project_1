@@ -1,4 +1,5 @@
 <?php
+// logging function
 function writeLog($message) {
     $logDir = __DIR__ . '/../private/logs';
     $logFile = $logDir . '/app.log';

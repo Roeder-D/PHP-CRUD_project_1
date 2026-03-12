@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/loadEnv.php';
+
+// Database connection
 $host = $_ENV['DB_HOST'];
 $dbname = $_ENV['DB_NAME'];
 $user = $_ENV['DB_USER'];
@@ -14,7 +16,6 @@ try{
 
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // echo 'Verbindung Erfolgreich';
 }
 catch(PDOException $e){
     echo 'Fehler: ' . $e->getMessage();

@@ -20,7 +20,7 @@ require __DIR__ . '/../includes/header.php';
 <body>
 <header>
     <nav class="nav">
-        <a href="#" class="nav_link">home</a>
+        <a href="home.php" class="nav_link">home</a>
         <?php if(current_user_has(2)): ?>
         <a href="createPage.php" class="nav_link">create</a>
         <a href="updatePage.php" class="nav_link">update</a>
@@ -65,9 +65,15 @@ require __DIR__ . '/../includes/header.php';
 <!-- Pagination Ausgabe -->
 <?php
 echo '<div><table>';
-echo '<tr> <td> ID </td> <td> Name </td> <td> Surname </td><td> Email </td></tr>';
+echo '<tr> <td> ID </td> <td> Name </td> <td> Surname </td><td> Email </td>';
+    if(current_user_has(2)){ echo '<td> Edit </td>';}
+    if(current_user_has(3)){ echo '<td> Delete </td>';}
+echo '</tr>';
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-    echo '<tr> <td> ' . e($row['id']) . '</td><td> ' . e($row['name']) .' </td><td> ' . e($row['surname']) . '</td><td> ' . e($row['email']??'') . ' </td></tr>';
+    echo '<tr> <td> ' . e($row['id']) . '</td><td> ' . e($row['name']) .' </td><td> ' . e($row['surname']) . '</td><td> ' . e($row['email']??'') . ' </td>';
+    if(current_user_has(2)){ echo '<td> <a href="updatePage.php?id=' . e($row['id']) . '">Edit</a> </td>';}
+    if(current_user_has(3)){ echo '<td> <a href="confirmDelete.php?id=' . e($row['id']) . '">Delete</a> </td>';}
+    echo '</tr>';
     }
     echo '</table></div>';
 ?>

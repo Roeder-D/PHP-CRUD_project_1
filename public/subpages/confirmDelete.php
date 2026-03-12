@@ -17,6 +17,12 @@ $errors = process_delete_person();
     <title>Delete User</title>
     <link rel="stylesheet" href="../includes/style.css">
 </head>
+<?php 
+if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])){
+    $_POST['delId'] = $_GET['id'];
+}
+
+?>
 
 <h2>Confirm Delete User</h2>
 <div>
@@ -37,7 +43,6 @@ if (!empty($errors)) {
         echo '<p>' . e($error) . '</p>';
     }
     echo '</div>';
-    // $errors = [];
 }
 
 echo '</div>';

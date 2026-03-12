@@ -18,11 +18,29 @@ $errors = process_update_person();
     <link rel="stylesheet" href="../includes/style.css">
 </head>
 
+<?php 
+if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])){
+    $stmt = $pdo->prepare("SELECT * FROM person WHERE id = ?");
+    $stmt->execute([$_GET['id']]);
+    $person = $stmt->fetch(PDO::FETCH_ASSOC);
+    if($person){
+        $_POST['upId'] = $person['id'];
+        $_POST['upName'] = $person['name'];
+        $_POST['upSurname'] = $person['surname'];
+        $_POST['upEmail'] = $person['email'];
+    } else {
+        echo '<div style="color: red;">User not found.</div>';
+    }
+}
+
+
+?>
+
 
 <body>
     <header>
     <nav class="nav">
-        <a href="#" class="nav_link">home</a>
+        <a href="home.php" class="nav_link">home</a>
         <?php if(current_user_has(2)): ?>
         <a href="createPage.php" class="nav_link">create</a>
         <a href="updatePage.php" class="nav_link">update</a>
@@ -45,13 +63,13 @@ $errors = process_update_person();
     <h2>Update User</h2>
     <form action="#" method="POST">
         <label for="upId">ID</label>
-        <input type="text" name="upId" id="name" required>
+        <input type="text" name="upId" id="name" value="<?php if(isset($person['id'])){ echo e($person['id']); } ?>" required readonly>
         <label for="upName">name</label>
-        <input type="text" name="upName" id="name" required>
+        <input type="text" name="upName" id="name" value="<?php if(isset($person['name'])){ echo e($person['name']); } ?>" required>
         <label for="upSurname">surname</label>
-        <input type="text" name="upSurname" id="surname" required>        
+        <input type="text" name="upSurname" id="surname" value="<?php if(isset($person['surname'])){ echo e($person['surname']); } ?>" required>        
         <label for="upEmail">email</label>
-        <input type="text" name="upEmail" id="email" required>
+        <input type="text" name="upEmail" id="email" value="<?php if(isset($person['email'])){ echo e($person['email']); } ?>" required>
         <button type="submit">Update</button>
     </form>
 </div>

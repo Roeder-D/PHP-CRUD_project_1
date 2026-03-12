@@ -14,7 +14,7 @@ require_once __DIR__ . '/../includes/header.php';
 <body>
     <header>
     <nav class="nav">
-        <a href="#" class="nav_link">home</a>
+        <a href="home.php" class="nav_link">home</a>
         <?php if(current_user_has(2)): ?>
         <a href="createPage.php" class="nav_link">create</a>
         <a href="updatePage.php" class="nav_link">update</a>

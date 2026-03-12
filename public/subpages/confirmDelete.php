@@ -18,8 +18,11 @@ $errors = process_delete_person();
     <link rel="stylesheet" href="../includes/style.css">
 </head>
 <?php 
-if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])){
+if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id']) && isset($_GET['origin'])){
     $_POST['delId'] = $_GET['id'];
+    $origin = $_GET['origin'];
+}else {
+    $origin = 'deletePage';
 }
 
 ?>
@@ -30,7 +33,8 @@ if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])){
     <form action="#" method="POST">
         <input type="hidden" name="delId" value="<?php echo e($_POST['delId'] ?? ''); ?>">
         <button type="submit" name="confirmDelete">Yes, Delete</button>
-        <a href="deletePage.php"><button type="button">No, Cancel</button></a>
+        <input type="hidden" name="origin" value="<?php echo $origin ?>">
+        <a href="<?php echo $origin === 'home' ? 'home.php' : 'deletePage.php'; ?>"><button type="button">No, Cancel</button></a>
     </form>
 </div>
 

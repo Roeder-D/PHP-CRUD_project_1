@@ -63,7 +63,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])){
     <h2>Update User</h2>
     <form action="#" method="POST">
         <label for="upId">ID</label>
-        <input type="text" name="upId" id="name" value="<?php if(isset($person['id'])){ echo e($person['id']); } ?>" required readonly>
+        <input type="text" name="upId" id="name" value="<?php if(isset($person['id'])){ echo e($person['id']); } ?>" <?php if(isset($person['id'])){ echo 'disabled';} else echo 'required' ;?>>
         <label for="upName">name</label>
         <input type="text" name="upName" id="name" value="<?php if(isset($person['name'])){ echo e($person['name']); } ?>" required>
         <label for="upSurname">surname</label>

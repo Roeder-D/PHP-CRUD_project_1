@@ -22,7 +22,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmDelete']) && is
             $wasDeleted = delete_person($id);
 
                 if ($wasDeleted) {
-                    header("Location: deletePage.php?success=1");
+                    echo $_POST['origin'] === 'home' ? header("Location: home.php?success=1") : header("Location: deletePage.php?success=1");
                     exit();
                 } else {
                     // Wenn id nicht existiert

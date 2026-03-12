@@ -1,5 +1,5 @@
 <?php
-
+// Load environment variables from .env file
 $envFile = __DIR__ . '/../../private/.env';
 
 if (file_exists($envFile)) {

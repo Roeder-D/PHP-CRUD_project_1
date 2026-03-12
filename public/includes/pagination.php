@@ -20,10 +20,10 @@ $totalPages = ceil($totalRows / $limit);
 
 // 4. Aufruf des aktuellen Abschnitts/Pagination
 $stmt = $pdo->prepare('SELECT * FROM person 
-                       WHERE name LIKE :search OR surname LIKE :search OR email LIKE :search 
+                       WHERE name LIKE :search OR surname LIKE :search OR email LIKE :search ORDER BY surname ASC 
                        LIMIT :limit OFFSET :offset');
-$stmt->bindValue(':search', $searchParam, PDO::PARAM_STR);
 $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+$stmt->bindValue(':search', $searchParam, PDO::PARAM_STR);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 

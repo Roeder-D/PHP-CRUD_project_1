@@ -16,6 +16,9 @@ if(session_status() === PHP_SESSION_NONE) {
 function login_user(string $username, string $password): array
 {
     global $pdo;
+
+    // Brute-force protection
+    // limited attempts per IP/User and time window, lockout after limit reached
     $pdo->query("DELETE FROM login_attempts WHERE last_attempt < NOW() - INTERVAL 1 DAY"); //clean old attempts
     $ip = $_SERVER['REMOTE_ADDR'];
     $limit = 5; //max attempts
@@ -40,7 +43,7 @@ function login_user(string $username, string $password): array
     $stmt->execute([':user' => $username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     $password_hash = $user ? $user['password_hash'] : '$2y$10$abcdefghijklmnopqrstuv'; //user_hash or if doesn't exist dummy_hash 
-    $peppered_password = hash_hmac('sha256', $password, $_ENV['APP_PEPPER']); //hash pw with pepper
+    $peppered_password = hash_hmac('sha256', $password, $_ENV['APP_PEPPER']);
     $validPW = password_verify($peppered_password, $password_hash); // prevent timing attacks (hide existence of user)
 
     //login
@@ -61,6 +64,7 @@ function login_user(string $username, string $password): array
     return ['success' => false, 'message' => 'Invalid username or password.'];
 }
 
+// log out
 function logout_user(): void
 {
     $_SESSION = [];
@@ -71,6 +75,7 @@ function logout_user(): void
     session_destroy();
 }
 
+// identify user
 function current_user_id(): ?int
 {
     return isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
@@ -81,7 +86,7 @@ function current_user_permission_level(): ?int
     return isset($_SESSION['permissions_level']) ? (int)$_SESSION['permissions_level'] : null;
 }
 
-// Überprüfe Berechtigungen
+// check permissions
 function current_user_has($perm): bool
 {
     $level = current_user_permission_level();
@@ -94,6 +99,7 @@ function current_user_has($perm): bool
     return false;
 }
 
+// ensure user is logged in and has required permission
 function require_login(): void
 {
     if (!current_user_id()) {
